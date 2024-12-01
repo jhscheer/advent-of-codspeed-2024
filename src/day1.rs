@@ -11,7 +11,7 @@ pub fn input_generator(input: &str) -> Input {
 }
 
 #[aoc(day1, part1)]
-pub fn solve_part1((v1, v2): &Input) -> Output {
+pub fn part1((v1, v2): &Input) -> Output {
     let (mut v1, mut v2) = (v1.to_owned(), v2.to_owned());
     v1.sort_unstable();
     v2.sort_unstable();
@@ -20,7 +20,7 @@ pub fn solve_part1((v1, v2): &Input) -> Output {
 }
 
 #[aoc(day1, part2)]
-fn solve_part2((v1, v2): &Input) -> Output {
+fn part2((v1, v2): &Input) -> Output {
     let mut sim_scores = std::collections::HashMap::new();
 
     v1.iter()
@@ -44,11 +44,11 @@ mod tests {
 
     #[test]
     fn example1() {
-        assert_eq!(solve_part1(&input_generator(EXAMPLE)), EXPECTED.0);
+        assert_eq!(part1(&input_generator(EXAMPLE)), EXPECTED.0);
     }
 
     #[test]
     fn example2() {
-        assert_eq!(solve_part2(&input_generator(EXAMPLE)), EXPECTED.1);
+        assert_eq!(part2(&input_generator(EXAMPLE)), EXPECTED.1);
     }
 }
