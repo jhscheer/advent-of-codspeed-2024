@@ -1,15 +1,17 @@
 use advent_of_codspeed_2024::day1;
 use criterion::{black_box, criterion_group, criterion_main, Criterion};
 
-pub fn criterion_benchmark(c: &mut Criterion) {
-    let path = std::path::PathBuf::from("input/2024/day1.txt");
-    let f = std::fs::File::open(path).unwrap();
-    let input = std::io::read_to_string(f).unwrap();
+pub fn bench_part1(c: &mut Criterion) {
+    let input = include_str!("../input/2024/day1.txt");
 
-    c.bench_function("day1::part1", |b| {
-        b.iter(|| day1::part1(black_box(&day1::input_generator(&input))))
-    });
+    c.bench_function("day1::part1", |b| b.iter(|| day1::part1(black_box(input))));
 }
 
-criterion_group!(benches, criterion_benchmark);
+pub fn bench_part2(c: &mut Criterion) {
+    let input = include_str!("../input/2024/day1.txt");
+
+    c.bench_function("day1::part2", |b| b.iter(|| day1::part2(black_box(input))));
+}
+
+criterion_group!(benches, bench_part1, bench_part2);
 criterion_main!(benches);

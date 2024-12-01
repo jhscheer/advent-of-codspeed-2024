@@ -1,8 +1,7 @@
 type Input = (Vec<usize>, Vec<usize>);
 type Output = usize;
 
-#[aoc_generator(day1)]
-pub fn input_generator(input: &str) -> Input {
+fn input_generator(input: &str) -> Input {
     input
         .lines()
         .map(|l| l.split_once("   ").unwrap())
@@ -11,8 +10,8 @@ pub fn input_generator(input: &str) -> Input {
 }
 
 #[aoc(day1, part1)]
-pub fn part1((v1, v2): &Input) -> Output {
-    let (mut v1, mut v2) = (v1.to_owned(), v2.to_owned());
+pub fn part1(input: &str) -> Output {
+    let (mut v1, mut v2) = input_generator(input);
     v1.sort_unstable();
     v2.sort_unstable();
 
@@ -20,8 +19,9 @@ pub fn part1((v1, v2): &Input) -> Output {
 }
 
 #[aoc(day1, part2)]
-fn part2((v1, v2): &Input) -> Output {
+pub fn part2(input: &str) -> Output {
     let mut sim_scores = std::collections::HashMap::new();
+    let (v1, v2) = input_generator(input);
 
     v1.iter()
         .map(|&n| {
@@ -40,15 +40,15 @@ mod tests {
     use super::*;
 
     const EXAMPLE: &str = "3   4\n4   3\n2   5\n1   3\n3   9\n3   3";
-    static EXPECTED: (Output, Output) = (11, 31);
+    const EXPECTED: (Output, Output) = (11, 31);
 
     #[test]
     fn example1() {
-        assert_eq!(part1(&input_generator(EXAMPLE)), EXPECTED.0);
+        assert_eq!(part1(EXAMPLE), EXPECTED.0);
     }
 
     #[test]
     fn example2() {
-        assert_eq!(part2(&input_generator(EXAMPLE)), EXPECTED.1);
+        assert_eq!(part2(EXAMPLE), EXPECTED.1);
     }
 }
