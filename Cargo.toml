@@ -20,3 +20,7 @@ criterion = { package = "codspeed-criterion-compat", version = "*" }
 [[bench]]
 name = "bench_day1"
 harness = false
+
+[[bench]]
+name = "bench_day2"
+harness = false
