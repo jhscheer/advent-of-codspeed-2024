@@ -1,12 +1,35 @@
+use atoi::atoi;
+use std::io::BufRead;
+
 type Input = (Vec<usize>, Vec<usize>);
 type Output = usize;
 
 fn input_generator(input: &str) -> Input {
-    input
-        .lines()
-        .map(|l| l.split_once("   ").unwrap())
-        .map(|(a, b)| (a.parse::<usize>().unwrap(), b.parse::<usize>().unwrap()))
-        .unzip()
+    // input
+    //     .lines()
+    //     .map(|l| l.split_once("   ").unwrap())
+    //     .map(|(a, b)| (a.parse::<usize>().unwrap(), b.parse::<usize>().unwrap()))
+    //     .unzip()
+
+    let mut input = input.as_bytes();
+
+    let mut buf = Vec::with_capacity(13);
+    let mut v1 = Vec::with_capacity(1000);
+    let mut v2 = Vec::with_capacity(1000);
+
+    while let Ok(len) = input.read_until(b'\n', &mut buf) {
+        if len == 0 {
+            break;
+        }
+
+        let i = unsafe { buf.iter().position(|&x| x == b' ').unwrap_unchecked() };
+        v1.push(unsafe { atoi(buf.get_unchecked(..i)).unwrap_unchecked() });
+        v2.push(unsafe { atoi(buf.get_unchecked(i + 3..)).unwrap_unchecked() });
+
+        buf.clear();
+    }
+
+    (v1, v2)
 }
 
 #[aoc(day1, part1)]
