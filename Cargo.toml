@@ -18,21 +18,5 @@ atoi = "2.0.0"
 criterion = { package = "codspeed-criterion-compat", version = "*" }
 
 [[bench]]
-name = "bench_day1"
-harness = false
-
-[[bench]]
-name = "bench_day2"
-harness = false
-
-[[bench]]
-name = "bench_day3"
-harness = false
-
-[[bench]]
-name = "bench_day4"
-harness = false
-
-[[bench]]
-name = "bench_day5"
+name = "benches"
 harness = false
