@@ -1,7 +1,7 @@
 type Output = usize;
 type Input<'a> = (usize, usize, &'a [u8]);
 
-fn input_generator(input: &str) -> Input {
+fn parse_input(input: &str) -> Input {
     let row_len = input.lines().count();
     let col_len = unsafe { input.find('\n').unwrap_unchecked() + 1 }; // +1 because '\n'
     let input = input.as_bytes();
@@ -10,7 +10,7 @@ fn input_generator(input: &str) -> Input {
 
 #[aoc(day4, part1)]
 pub fn part1(input: &str) -> Output {
-    let (row_len, col_len, grid) = input_generator(input);
+    let (row_len, col_len, grid) = parse_input(input);
     let mut sum = 0;
 
     for r in 0..row_len {
@@ -92,7 +92,7 @@ pub fn part1(input: &str) -> Output {
 
 #[aoc(day4, part2)]
 pub fn part2(input: &str) -> Output {
-    let (row_len, col_len, grid) = input_generator(input);
+    let (row_len, col_len, grid) = parse_input(input);
 
     let mut sum = 0;
     let mut cross: [u8; 4];
@@ -136,12 +136,18 @@ MAMMMXMMMM
 MXMXAXMASX";
 
     #[test]
-    fn example1() {
-        assert_eq!(part1(EXAMPLE), 18);
+    fn xmpls() {
+        const EXPECTED: (Output, Output) = (18, 9);
+        assert_eq!(part1(EXAMPLE), EXPECTED.0);
+        assert_eq!(part2(EXAMPLE), EXPECTED.1);
     }
 
+    const INPUT: &str = include_str!("../input/2024/day4.txt");
+
     #[test]
-    fn example2() {
-        assert_eq!(part2(EXAMPLE), 9);
+    fn input() {
+        const EXPECTED: (Output, Output) = (2543, 1930);
+        assert_eq!(part1(INPUT), EXPECTED.0);
+        assert_eq!(part2(INPUT), EXPECTED.1);
     }
 }

@@ -3,7 +3,7 @@ use std::collections::HashMap;
 type Output = usize;
 type Input = (Vec<(usize, usize)>, Vec<Vec<usize>>);
 
-fn input_generator(input: &str) -> Input {
+fn parse_input(input: &str) -> Input {
     let (rules, updates) = input.split_once("\n\n").unwrap();
     let rules = rules
         .lines()
@@ -19,7 +19,7 @@ fn input_generator(input: &str) -> Input {
 
 #[aoc(day5, part1)]
 pub fn part1(input: &str) -> Output {
-    let input = input_generator(input);
+    let input = parse_input(input);
     let mut rules = HashMap::new();
     for rule in &input.0 {
         let entry = rules.entry(rule.0).or_insert(vec![rule.1]);
@@ -42,7 +42,7 @@ pub fn part1(input: &str) -> Output {
 
 #[aoc(day5, part2)]
 pub fn part2(input: &str) -> Output {
-    let input = input_generator(input);
+    let input = parse_input(input);
     let mut rules = HashMap::new();
     for rule in &input.0 {
         let entry = rules.entry(rule.0).or_insert(vec![rule.1]);
@@ -117,15 +117,20 @@ mod tests {
 75,97,47,61,53
 61,13,29
 97,13,75,29,47";
-    const EXPECTED: (Output, Output) = (143, 123);
 
     #[test]
-    fn example1() {
+    fn xmpls() {
+        const EXPECTED: (Output, Output) = (143, 123);
         assert_eq!(part1(EXAMPLE), EXPECTED.0);
+        assert_eq!(part2(EXAMPLE), EXPECTED.1);
     }
 
+    const INPUT: &str = include_str!("../input/2024/day5.txt");
+
     #[test]
-    fn example2() {
-        assert_eq!(part2(EXAMPLE), EXPECTED.1);
+    fn input() {
+        const EXPECTED: (Output, Output) = (6949, 4145);
+        assert_eq!(part1(INPUT), EXPECTED.0);
+        assert_eq!(part2(INPUT), EXPECTED.1);
     }
 }

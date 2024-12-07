@@ -161,15 +161,20 @@ mod tests {
 ........#.
 #.........
 ......#...";
-    const EXPECTED: (Output, Output) = (41, 6);
 
     #[test]
-    fn example1() {
+    fn xmpls() {
+        const EXPECTED: (Output, Output) = (41, 6);
         assert_eq!(part1(EXAMPLE), EXPECTED.0);
+        assert_eq!(part2(EXAMPLE), EXPECTED.1);
     }
 
+    const INPUT: &str = include_str!("../input/2024/day6.txt");
+
     #[test]
-    fn example2() {
-        assert_eq!(part2(EXAMPLE), EXPECTED.1);
+    fn input() {
+        const EXPECTED: (Output, Output) = (5531, 2165);
+        assert_eq!(part1(INPUT), EXPECTED.0);
+        assert_eq!(part2(INPUT), EXPECTED.1);
     }
 }

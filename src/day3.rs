@@ -1,7 +1,7 @@
 type Output = usize;
 type Input = Vec<(usize, usize)>;
 
-fn input_generator(input: &str, is_part2: bool) -> Input {
+fn parse_input(input: &str, is_part2: bool) -> Input {
     let mut do_ranges = Vec::new();
     if is_part2 {
         enum Instructions {
@@ -98,18 +98,12 @@ fn input_generator(input: &str, is_part2: bool) -> Input {
 
 #[aoc(day3, part1)]
 pub fn part1(input: &str) -> Output {
-    input_generator(input, false)
-        .iter()
-        .map(|&(a, b)| a * b)
-        .sum()
+    parse_input(input, false).iter().map(|&(a, b)| a * b).sum()
 }
 
 #[aoc(day3, part2)]
 pub fn part2(input: &str) -> Output {
-    input_generator(input, true)
-        .iter()
-        .map(|&(a, b)| a * b)
-        .sum()
+    parse_input(input, true).iter().map(|&(a, b)| a * b).sum()
 }
 
 #[cfg(test)]
@@ -120,15 +114,20 @@ mod tests {
         "xmul(2,4)%&mul[3,7]!@^do_not_mul(5,5)+mul(32,64]then(mul(11,8)mul(8,5))";
     const EXAMPLE2: &str =
         "xmul(2,4)&mul[3,7]!^don't()_mul(5,5)+mul(32,64](mul(11,8)undo()?mul(8,5))";
-    const EXPECTED: (Output, Output) = (161, 48);
 
     #[test]
-    fn example1() {
+    fn xmpls() {
+        const EXPECTED: (Output, Output) = (161, 48);
         assert_eq!(part1(EXAMPLE1), EXPECTED.0);
+        assert_eq!(part2(EXAMPLE2), EXPECTED.1);
     }
 
+    const INPUT: &str = include_str!("../input/2024/day3.txt");
+
     #[test]
-    fn example2() {
-        assert_eq!(part2(EXAMPLE2), EXPECTED.1);
+    fn input() {
+        const EXPECTED: (Output, Output) = (174561379, 106921067);
+        assert_eq!(part1(INPUT), EXPECTED.0);
+        assert_eq!(part2(INPUT), EXPECTED.1);
     }
 }

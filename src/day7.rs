@@ -1,7 +1,7 @@
 type Input<'a> = &'a str;
 type Output = usize;
 
-fn parse(s: &str) -> impl Iterator<Item = Vec<usize>> + '_ {
+fn parse_input(s: &str) -> impl Iterator<Item = Vec<usize>> + '_ {
     s.lines().map(|line| {
         line.split(|c: char| !c.is_ascii_alphanumeric())
             .filter_map(|v| v.parse().ok())
@@ -41,14 +41,14 @@ fn is_valid2(target: usize, current: usize, nums: &[usize]) -> Option<usize> {
 
 #[aoc(day7, part1)]
 pub fn part1(input: Input) -> Output {
-    parse(input)
+    parse_input(input)
         .filter(|ns| is_valid1(ns[0], &ns[1..]))
         .fold(0, |acc, ns| acc + ns[0])
 }
 
 #[aoc(day7, part2)]
 pub fn part2(input: Input) -> Output {
-    parse(input)
+    parse_input(input)
         .filter(|ns| ns.len() > 1 && is_valid2(ns[0], ns[1], &ns[2..]).is_some())
         .fold(0, |acc, ns| acc + ns[0])
 }

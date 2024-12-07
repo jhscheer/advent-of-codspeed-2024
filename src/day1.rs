@@ -4,13 +4,7 @@ use std::io::BufRead;
 type Input = (Vec<usize>, Vec<usize>);
 type Output = usize;
 
-fn input_generator(input: &str) -> Input {
-    // input
-    //     .lines()
-    //     .map(|l| l.split_once("   ").unwrap())
-    //     .map(|(a, b)| (a.parse::<usize>().unwrap(), b.parse::<usize>().unwrap()))
-    //     .unzip()
-
+fn parse_input(input: &str) -> Input {
     let mut input = input.as_bytes();
 
     let mut buf = Vec::with_capacity(13);
@@ -34,7 +28,7 @@ fn input_generator(input: &str) -> Input {
 
 #[aoc(day1, part1)]
 pub fn part1(input: &str) -> Output {
-    let (mut v1, mut v2) = input_generator(input);
+    let (mut v1, mut v2) = parse_input(input);
     v1.sort_unstable();
     v2.sort_unstable();
 
@@ -44,7 +38,7 @@ pub fn part1(input: &str) -> Output {
 #[aoc(day1, part2)]
 pub fn part2(input: &str) -> Output {
     let mut sim_scores = std::collections::HashMap::new();
-    let (v1, v2) = input_generator(input);
+    let (v1, v2) = parse_input(input);
 
     v1.iter()
         .map(|&n| {
@@ -63,15 +57,20 @@ mod tests {
     use super::*;
 
     const EXAMPLE: &str = "3   4\n4   3\n2   5\n1   3\n3   9\n3   3";
-    const EXPECTED: (Output, Output) = (11, 31);
 
     #[test]
-    fn example1() {
+    fn xmpls() {
+        const EXPECTED: (Output, Output) = (11, 31);
         assert_eq!(part1(EXAMPLE), EXPECTED.0);
+        assert_eq!(part2(EXAMPLE), EXPECTED.1);
     }
 
+    const INPUT: &str = include_str!("../input/2024/day1.txt");
+
     #[test]
-    fn example2() {
-        assert_eq!(part2(EXAMPLE), EXPECTED.1);
+    fn input() {
+        const EXPECTED: (Output, Output) = (1341714, 27384707);
+        assert_eq!(part1(INPUT), EXPECTED.0);
+        assert_eq!(part2(INPUT), EXPECTED.1);
     }
 }
