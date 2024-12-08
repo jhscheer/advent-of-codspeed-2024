@@ -5,7 +5,7 @@ use core::ops::{Add, AddAssign, Neg, Sub};
 type Input<'a> = &'a str;
 type Output = usize;
 
-const MAX_CHAR: usize = 256;
+const MAX_CHAR: usize = u8::MAX as usize;
 const MAX_GRID: (usize, usize) = (50, 50);
 const MAX_ANTENNA: usize = 32;
 
@@ -74,7 +74,8 @@ impl From<&str> for Grid {
                 continue;
             }
             if ch.is_ascii_alphanumeric() {
-                antennas[ch as usize].push(bounds);
+                // antennas[ch as usize].push(bounds);
+                unsafe { antennas.get_unchecked_mut(ch as usize) }.push(bounds);
             }
             bounds.1 += 1;
         }
@@ -101,10 +102,20 @@ pub fn part1(input: Input) -> Output {
                 let antinode2 = *a2 + delta;
 
                 if grid.contains(&antinode1) {
-                    grid.antinodes[antinode1.0 as usize][antinode1.1 as usize] = true;
+                    let (r, c) = (antinode1.0 as usize, antinode1.1 as usize);
+                    // grid.antinodes[r][c] = true;
+                    unsafe {
+                        let seen = grid.antinodes.get_unchecked_mut(r).get_unchecked_mut(c);
+                        *seen = true;
+                    }
                 }
                 if grid.contains(&antinode2) {
-                    grid.antinodes[antinode2.0 as usize][antinode2.1 as usize] = true;
+                    let (r, c) = (antinode2.0 as usize, antinode2.1 as usize);
+                    // grid.antinodes[r][c] = true;
+                    unsafe {
+                        let seen = grid.antinodes.get_unchecked_mut(r).get_unchecked_mut(c);
+                        *seen = true;
+                    }
                 }
             }
         }
@@ -123,11 +134,21 @@ pub fn part2(input: Input) -> Output {
                 let mut antinode2 = *a2;
 
                 while grid.contains(&antinode1) {
-                    grid.antinodes[antinode1.0 as usize][antinode1.1 as usize] = true;
+                    let (r, c) = (antinode1.0 as usize, antinode1.1 as usize);
+                    // grid.antinodes[r][c] = true;
+                    unsafe {
+                        let seen = grid.antinodes.get_unchecked_mut(r).get_unchecked_mut(c);
+                        *seen = true;
+                    }
                     antinode1 += delta.neg();
                 }
                 while grid.contains(&antinode2) {
-                    grid.antinodes[antinode2.0 as usize][antinode2.1 as usize] = true;
+                    let (r, c) = (antinode2.0 as usize, antinode2.1 as usize);
+                    // grid.antinodes[r][c] = true;
+                    unsafe {
+                        let seen = grid.antinodes.get_unchecked_mut(r).get_unchecked_mut(c);
+                        *seen = true;
+                    }
                     antinode2 += delta;
                 }
             }
