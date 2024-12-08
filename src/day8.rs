@@ -1,7 +1,13 @@
+use arrayvec::ArrayVec;
+use core::array::from_fn;
 use core::ops::{Add, AddAssign, Neg, Sub};
 
 type Input<'a> = &'a str;
 type Output = usize;
+
+const MAX_CHAR: usize = 256;
+const MAX_GRID: (usize, usize) = (50, 50);
+const MAX_ANTENNA: usize = 32;
 
 #[derive(Clone, Copy, Eq, PartialEq, Hash)]
 struct Coord(isize, isize);
@@ -42,9 +48,9 @@ impl Sub for Coord {
 }
 
 struct Grid {
-    antennas: [Vec<Coord>; 256], // HashMap
-    bounds: Coord,               // Bounds of the map
-    antinodes: Vec<Vec<bool>>,   // HashSet
+    antinodes: ArrayVec<ArrayVec<bool, { MAX_GRID.0 }>, { MAX_GRID.1 }>, // HashSet
+    antennas: [ArrayVec<Coord, { MAX_ANTENNA }>; MAX_CHAR],              // HashMap
+    bounds: Coord,                                                       // Bounds of the map
 }
 
 impl Grid {
@@ -55,7 +61,7 @@ impl Grid {
 
 impl From<&str> for Grid {
     fn from(input: &str) -> Self {
-        let mut antennas: [Vec<Coord>; 256] = core::array::from_fn(|_| Vec::with_capacity(16));
+        let mut antennas = from_fn(|_| ArrayVec::<Coord, { MAX_ANTENNA }>::new());
 
         let mut bounds = Coord(0, 0);
         let mut col_len = 0;
@@ -74,12 +80,12 @@ impl From<&str> for Grid {
         }
         bounds.1 = col_len;
 
-        let antinodes = vec![vec![false; bounds.1 as usize]; bounds.0 as usize];
+        let antinodes = ArrayVec::from(from_fn(|_| ArrayVec::from(from_fn(|_| false))));
 
         Self {
+            antinodes,
             antennas,
             bounds,
-            antinodes,
         }
     }
 }
