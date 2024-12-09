@@ -5,9 +5,9 @@ use core::ops::{Add, AddAssign, Neg, Sub};
 type Input<'a> = &'a str;
 type Output = usize;
 
-const MAX_CHAR: usize = u8::MAX as usize;
-const MAX_GRID: (usize, usize) = (50, 50);
-const MAX_ANTENNA: usize = 32;
+const MAX_CHAR: usize = 128; // biggest ascii is 'z' with 122
+const MAX_GRID: (usize, usize) = (50, 50); // assume the max. boundaries of the input map
+const MAX_ANTENNA: usize = 8; // assume the max. number of antennas per frequency
 
 #[derive(Clone, Copy, Eq, PartialEq, Hash)]
 struct Coord(isize, isize);
@@ -94,7 +94,7 @@ impl From<&str> for Grid {
 #[aoc(day8, part1)]
 pub fn part1(input: Input) -> Output {
     let mut grid = Grid::from(input);
-    for coords in &grid.antennas {
+    for coords in grid.antennas.iter().filter(|v| v.len() > 2) {
         for (i, a1) in coords.iter().enumerate() {
             for a2 in &coords[(i + 1)..] {
                 let delta = *a2 - *a1;
@@ -126,7 +126,7 @@ pub fn part1(input: Input) -> Output {
 #[aoc(day8, part2)]
 pub fn part2(input: Input) -> Output {
     let mut grid = Grid::from(input);
-    for coords in &grid.antennas {
+    for coords in grid.antennas.iter().filter(|v| v.len() > 2) {
         for (i, a1) in coords.iter().enumerate() {
             for a2 in &coords[(i + 1)..] {
                 let delta = *a2 - *a1;
