@@ -14,6 +14,7 @@ aoc-runner-derive = "0.3.0"
 rustc-serialize = "0.3.25"
 atoi = "2.0.0"
 arrayvec = "0.7.6"
+fxhash = "0.2.1"
 
 [dev-dependencies]
 criterion = { package = "codspeed-criterion-compat", version = "*" }
