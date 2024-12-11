@@ -1,5 +1,5 @@
 use arrayvec::ArrayVec;
-use atoi::atoi;
+use atoi_simd;
 use fxhash::FxHashMap;
 use itoa;
 
@@ -9,7 +9,7 @@ const DEFAULT_CAPACITY: usize = 4096;
 unsafe fn parse_input(input: &str) -> ArrayVec<usize, MAX_LEN> {
     input[..input.len() - 1]
         .split(" ")
-        .map(|s| atoi(s.as_bytes()).unwrap_unchecked())
+        .map(|s| atoi_simd::parse(s.as_bytes()).unwrap_unchecked())
         .collect()
 }
 
@@ -33,10 +33,16 @@ unsafe fn count(
         if s.len() % 2 == 0 {
             let h = s.len() / 2;
             count(
-                (atoi(s[..h].as_bytes()).unwrap_unchecked(), blinks - 1),
+                (
+                    atoi_simd::parse(s[..h].as_bytes()).unwrap_unchecked(),
+                    blinks - 1,
+                ),
                 cache,
             ) + count(
-                (atoi(s[h..].as_bytes()).unwrap_unchecked(), blinks - 1),
+                (
+                    atoi_simd::parse(s[h..].as_bytes()).unwrap_unchecked(),
+                    blinks - 1,
+                ),
                 cache,
             )
         } else {

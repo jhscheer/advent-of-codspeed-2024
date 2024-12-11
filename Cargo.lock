@@ -9,7 +9,7 @@ dependencies = [
  "aoc-runner",
  "aoc-runner-derive",
  "arrayvec",
- "atoi",
+ "atoi_simd",
  "codspeed-criterion-compat",
  "fxhash",
  "itoa",
@@ -74,13 +74,10 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "7c02d123df017efcdfbd739ef81735b36c5ba83ec3c59c80a9d7ecc718f92e50"
 
 [[package]]
-name = "atoi"
-version = "2.0.0"
+name = "atoi_simd"
+version = "0.16.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f28d99ec8bfea296261ca1af174f24225171fea9664ba9003cbebee704810528"
-dependencies = [
- "num-traits",
-]
+checksum = "4790f9e8961209112beb783d85449b508673cf4a6a419c8449b210743ac4dbe9"
 
 [[package]]
 name = "autocfg"
