@@ -25,7 +25,8 @@ impl Add for Point {
     }
 }
 
-const MAX_LEN: usize = 53;
+const MAX_LEN: usize = 64;
+const DEFAULT_CAPACITY: usize = 64;
 
 struct Map {
     inner: [[u8; MAX_LEN]; MAX_LEN],
@@ -105,10 +106,7 @@ unsafe fn dfs(point: Point, map: &Map, p1: &mut Option<FxHashSet<Point>>) -> usi
     result
 }
 
-type Input<'a> = &'a str;
-type Output = usize;
-
-fn solve(map: &Map, p1: bool) -> Output {
+fn solve(map: &Map, p1: bool) -> usize {
     let grid = &map.inner;
     let mut sum = 0;
 
@@ -117,7 +115,10 @@ fn solve(map: &Map, p1: bool) -> Output {
             if height == 48 {
                 // 48: '0'
                 let mut seen = if p1 {
-                    Some(FxHashSet::with_capacity_and_hasher(64, Default::default()))
+                    Some(FxHashSet::with_capacity_and_hasher(
+                        DEFAULT_CAPACITY,
+                        Default::default(),
+                    ))
                 } else {
                     None
                 };
@@ -130,12 +131,12 @@ fn solve(map: &Map, p1: bool) -> Output {
 }
 
 #[aoc(day10, part1)]
-pub fn part1(input: Input) -> Output {
+pub fn part1(input: &str) -> usize {
     solve(&parse_input(input), true)
 }
 
 #[aoc(day10, part2)]
-pub fn part2(input: Input) -> Output {
+pub fn part2(input: &str) -> usize {
     solve(&parse_input(input), false)
 }
 #[cfg(test)]
@@ -147,7 +148,7 @@ mod tests {
 
     #[test]
     fn xmpls() {
-        const EXPECTED: (Output, Output) = (36, 81);
+        const EXPECTED: (usize, usize) = (36, 81);
         assert_eq!(part1(EXAMPLE), EXPECTED.0);
         assert_eq!(part2(EXAMPLE), EXPECTED.1);
     }
@@ -156,7 +157,7 @@ mod tests {
 
     #[test]
     fn input() {
-        const SOLUTION: (Output, Output) = (776, 1657);
+        const SOLUTION: (usize, usize) = (776, 1657);
         assert_eq!(part1(INPUT), SOLUTION.0);
         assert_eq!(part2(INPUT), SOLUTION.1);
     }

@@ -12,6 +12,7 @@ dependencies = [
  "atoi",
  "codspeed-criterion-compat",
  "fxhash",
+ "itoa",
  "rust-crypto",
  "rustc-serialize",
 ]
