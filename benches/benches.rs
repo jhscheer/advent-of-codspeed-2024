@@ -95,6 +95,19 @@ pub fn day10_part2(c: &mut Criterion) {
     });
 }
 
+pub fn day11_part1(c: &mut Criterion) {
+    let input = include_str!("../input/2024/day11.txt");
+    c.bench_function("day11::part1", |b| {
+        b.iter(|| day11::part1(black_box(input)))
+    });
+}
+pub fn day11_part2(c: &mut Criterion) {
+    let input = include_str!("../input/2024/day11.txt");
+    c.bench_function("day11::part2", |b| {
+        b.iter(|| day11::part2(black_box(input)))
+    });
+}
+
 criterion_group!(
     benches,
     day1_part1,
@@ -116,6 +129,8 @@ criterion_group!(
     day9_part1,
     day9_part2,
     day10_part1,
-    day10_part2
+    day10_part2,
+    day11_part1,
+    day11_part2,
 );
 criterion_main!(benches);
