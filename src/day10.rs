@@ -1,5 +1,5 @@
 use core::ops::Add;
-use fxhash::FxHashSet;
+use rustc_hash::FxHashSet;
 
 #[derive(Clone, Copy, Eq, PartialEq, Hash)]
 struct Point(isize, isize);

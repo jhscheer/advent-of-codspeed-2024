@@ -1,4 +1,4 @@
-use atoi::atoi;
+use atoi_simd;
 use std::io::BufRead;
 
 type Input = (Vec<usize>, Vec<usize>);
@@ -7,7 +7,7 @@ type Output = usize;
 fn parse_input(input: &str) -> Input {
     let mut input = input.as_bytes();
 
-    let mut buf = Vec::with_capacity(13);
+    let mut buf = Vec::with_capacity(16);
     let mut v1 = Vec::with_capacity(1000);
     let mut v2 = Vec::with_capacity(1000);
 
@@ -17,8 +17,8 @@ fn parse_input(input: &str) -> Input {
         }
 
         let i = unsafe { buf.iter().position(|&x| x == b' ').unwrap_unchecked() };
-        v1.push(unsafe { atoi(buf.get_unchecked(..i)).unwrap_unchecked() });
-        v2.push(unsafe { atoi(buf.get_unchecked(i + 3..)).unwrap_unchecked() });
+        v1.push(unsafe { atoi_simd::parse(buf.get_unchecked(..i)).unwrap_unchecked() });
+        v2.push(unsafe { atoi_simd::parse(buf.get_unchecked(i + 3..len - 1)).unwrap_unchecked() });
 
         buf.clear();
     }
@@ -56,7 +56,7 @@ pub fn part2(input: &str) -> Output {
 mod tests {
     use super::*;
 
-    const EXAMPLE: &str = "3   4\n4   3\n2   5\n1   3\n3   9\n3   3";
+    const EXAMPLE: &str = "3   4\n4   3\n2   5\n1   3\n3   9\n3   3\n";
 
     #[test]
     fn xmpls() {

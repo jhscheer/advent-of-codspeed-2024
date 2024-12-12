@@ -1,7 +1,7 @@
 use arrayvec::ArrayVec;
 use atoi_simd;
-use fxhash::FxHashMap;
 use itoa;
+use rustc_hash::FxHashMap;
 
 const MAX_LEN: usize = 32;
 const DEFAULT_CAPACITY: usize = 4096;
