@@ -16,6 +16,7 @@ arrayvec = "0.7.6"
 itoa = "1.0.14"
 atoi_simd = "0.16.0"
 rustc-hash = "2.1.0"
+memchr = "2.7.4"
 
 [dev-dependencies]
 criterion = { package = "codspeed-criterion-compat", version = "*" }

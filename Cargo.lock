@@ -12,6 +12,7 @@ dependencies = [
  "atoi_simd",
  "codspeed-criterion-compat",
  "itoa",
+ "memchr",
  "rust-crypto",
  "rustc-hash",
  "rustc-serialize",
