@@ -9,35 +9,25 @@ type Parsed = ArrayVec<(Point, Point), MAX_LEN>;
 type Output = usize;
 
 unsafe fn parse_input(input: &str) -> Parsed {
-    input
-        .lines()
-        // p=0,4 v=3,-3
-        .map(|l| l.split_once(" ").unwrap_unchecked())
-        .map(|(a, b)| {
-            (
-                a.split_once("=").unwrap_unchecked(),
-                b.split_once("=").unwrap_unchecked(),
-            )
-        })
-        .map(|((_, a), (_, b))| {
-            (
-                a.split_once(",").unwrap_unchecked(),
-                b.split_once(",").unwrap_unchecked(),
-            )
-        })
-        .map(|((px, py), (vx, vy))| {
-            (
-                (
-                    atoi_simd::parse(px.as_bytes()).unwrap_unchecked(),
-                    atoi_simd::parse(py.as_bytes()).unwrap_unchecked(),
-                ),
-                (
-                    atoi_simd::parse(vx.as_bytes()).unwrap_unchecked(),
-                    atoi_simd::parse(vy.as_bytes()).unwrap_unchecked(),
-                ),
-            )
-        })
-        .collect()
+    let input = input.as_bytes();
+    let mut lines = Parsed::new();
+    let mut cursor = 2;
+
+    // p=0,4 v=3,-3
+    while cursor < input.len() {
+        let (px, offset) = atoi_simd::parse_any::<isize>(&input[cursor..]).unwrap_unchecked();
+        cursor = cursor + offset + 1;
+        let (py, offset) = atoi_simd::parse_any::<isize>(&input[cursor..]).unwrap_unchecked();
+        cursor = cursor + offset + 3;
+        let (vx, offset) = atoi_simd::parse_any::<isize>(&input[cursor..]).unwrap_unchecked();
+        cursor = cursor + offset + 1;
+        let (vy, offset) = atoi_simd::parse_any::<isize>(&input[cursor..]).unwrap_unchecked();
+        cursor = cursor + offset + 3;
+
+        lines.push(((px, py), (vx, vy)));
+    }
+
+    lines
 }
 
 #[aoc(day14, part1)]
